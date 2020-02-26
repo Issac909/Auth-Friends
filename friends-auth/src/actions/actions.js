@@ -58,7 +58,10 @@ export const editFriend = () => dispatch => {
     AxiosWithAuth()
         .get(`/friends`)
         .then(res => {
+            res.data.friends.map(friend => {
+            dispatch({ type: EDIT_ENTRY, payload: friend})
             console.log(res);
+        })
         })
         .catch(err => console.log(err))
 };
