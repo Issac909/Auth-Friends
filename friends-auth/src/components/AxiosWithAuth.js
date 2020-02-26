@@ -9,4 +9,5 @@ export const AxiosWithAuth = () => {
         },
         baseURL: 'http://localhost:5000/api'
     })
+
 };

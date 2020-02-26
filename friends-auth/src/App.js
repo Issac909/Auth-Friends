@@ -3,20 +3,14 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import { ProtectedRoute } from './ProtectedRoutes';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import Login from './components/Login';
 import Friend from './components/Friends';
+import { logOut } from './actions/actions';
 
 
-function App() {
-
-  const dispatch = useDispatch();
-  const handleLogout = e => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    dispatch({ type: 'DELETE_LOGIN', payload: false })
-  }
+function App(props) {
 
   return (
         <Router>
@@ -28,14 +22,27 @@ function App() {
               <li>
               <Link to='/friends'>Friends</Link>
               </li>
-              <button onClick={handleLogout}>Logout</button>
-              <Route exact path={['/', '/login']} component={Login} />
-              <ProtectedRoute exact path='/friends' component={Friend} />
+              <button onClick={props.logOut}>Logout</button>
             </ul>
+              { props.loggedIn ? (
+              <ProtectedRoute exact path='/friends' component={Friend} />
+              ) : (
+                <Route path={['/', '/login']} component={Login} />
+              )
+              }
+            
           </div>
         </Router>
-
   )
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.loggedIn
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { logOut }
+)(App);

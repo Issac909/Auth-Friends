@@ -51,7 +51,7 @@ class Login extends React.Component {
                     placeholder='enter password'
                 />
                 <br></br>
-                <button>{this.props.loggedIn ? <h2>Loading</h2> : 'Send'}</button>
+                <button>{this.props.fetchingData ? <h2>Loading</h2> : 'Send'}</button>
             </form>
         </div>
         );
